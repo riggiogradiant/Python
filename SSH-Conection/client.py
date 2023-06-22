@@ -18,11 +18,10 @@ def ssh_connect(ip, port, user, passwd):
     print('============================================')
     
     while True:
-        # Realizar acciones en el canal (enviar comandos, recibir datos, etc.)
-        cmd = input('Enter msg to send to server or <CR> to exit: ')
-        if cmd == '':
+        msg_send = input('Enter msg to send to server or <CR> to exit: ')
+        if msg_send == '':
             break
-        channel.send(cmd)
+        channel.send(msg_send)
         output = channel.recv(1024).decode()
         print('---MSG RECEIVED---')
         print(output, '\n')
@@ -31,6 +30,7 @@ def ssh_connect(ip, port, user, passwd):
     channel.close()
     client.close()
 
+#main
 if __name__ == '__main__':
     import getpass
     user = input('Username: ')

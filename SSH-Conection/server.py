@@ -42,6 +42,8 @@ if __name__ == '__main__':
     bhSession.add_server_key(HOSTKEY)
     server = Server()
     bhSession.start_server(server=server)
+
+    #Espera a que el cliente abra un canal ssh
     chan = bhSession.accept(20)
 
     if chan is None:
@@ -50,8 +52,7 @@ if __name__ == '__main__':
 
     print('[+] Authenticated!')
     print(chan.recv(1024).decode())
-    #check_msg= 'Welcome to bh_ssh'
-    #chan.send(check_msg.encode())
+
     print('============================================')
 
     try:
