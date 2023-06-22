@@ -2,12 +2,12 @@ import os
 import paramiko
 import socket
 import sys
-import threading 
+import threading
 
 CWD = os.path.dirname(os.path.realpath(__file__))
 HOSTKEY = paramiko.RSAKey(filename=os.path.join(CWD, 'id_rsa'))
 
-class Server (paramiko.ServerInterface):
+class Server(paramiko.ServerInterface):
     def __init__(self):
         self.event = threading.Event()
 
@@ -15,15 +15,15 @@ class Server (paramiko.ServerInterface):
         if kind == 'session':
             return paramiko.OPEN_SUCCEEDED
         return paramiko.OPEN_FAILED_ADMINISTRATIVELY_PROHIBITED
-    
+
     def check_auth_password(self, username, password):
-        if(username == 'tim') and (password == 'sekret'):
+        if (username == 'user') and (password == 'pass'):
             return paramiko.AUTH_SUCCESSFUL
-        
+        return paramiko.AUTH_FAILED
 
 if __name__ == '__main__':
-    server = '192.168.1.50'
-    ssh_port = 6677
+    server = '127.0.0.1'
+    ssh_port = 22222
     try:
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -42,60 +42,32 @@ if __name__ == '__main__':
     bhSession.add_server_key(HOSTKEY)
     server = Server()
     bhSession.start_server(server=server)
-
     chan = bhSession.accept(20)
+
     if chan is None:
         print('*** No Channel.')
         sys.exit(1)
 
     print('[+] Authenticated!')
     print(chan.recv(1024).decode())
-    chan.send('Welcome to bh_ssh')
+    #check_msg= 'Welcome to bh_ssh'
+    #chan.send(check_msg.encode())
+    print('============================================')
 
     try:
         while True:
-            command = input("Enter command: ")
-            if command != 'exit':
-                chan.send(command)
-                r = chan.recv(8192)
-                print(r.decode())
+            print('Waiting for msg from Client ...')
+            msg_from_client = chan.recv(1024).decode()
+            print('Mensaje recibido:', msg_from_client, '\n')
+            if msg_from_client != '':
+                msg_send = '[FROM SERVER]: ' + msg_from_client
+                msg_send = msg_send.encode()
+                chan.send(msg_send)
             else:
-                chan.send('exit')
-                print('Exiting')
+                print('Cerrando el servidor')
                 bhSession.close()
                 break
+
+            
     except KeyboardInterrupt:
         bhSession.close()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
