@@ -7,6 +7,7 @@ import threading
 CWD = os.path.dirname(os.path.realpath(__file__))
 HOSTKEY = paramiko.RSAKey(filename=os.path.join(CWD, 'id_rsa'))
 
+#clase servidor con funciones de checkear el canal y el usuario y contraseña
 class Server(paramiko.ServerInterface):
     def __init__(self):
         self.event = threading.Event()
@@ -22,9 +23,12 @@ class Server(paramiko.ServerInterface):
         return paramiko.AUTH_FAILED
 
 if __name__ == '__main__':
+
+    #ip y puerto donde se va a ejecutar el servidor
     server = '127.0.0.1'
     ssh_port = 22222
     try:
+        #creamos socket tcp
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         sock.bind((server, ssh_port))

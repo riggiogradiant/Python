@@ -8,13 +8,7 @@ def ssh_connect(ip, port, user, passwd):
 
     # Abrir un canal SSH
     channel = client.get_transport().open_session()
-
-    # Enviar una solicitud de canal del tipo "session"
-    # channel.get_pty()
-    # channel.invoke_shell()
-
     channel.send('Client succesfully connected')
-    #print(channel.recv(1024).decode())
     print('============================================')
     
     while True:
@@ -34,8 +28,11 @@ def ssh_connect(ip, port, user, passwd):
 if __name__ == '__main__':
     import getpass
     user = input('Username: ')
+    
+    #getpass: para no ver la contraseña cuando se escribe
     password = getpass.getpass()
 
+    #puerto e ip en el que está configurado el server.py
     ip = input('Enter server IP: ') or '127.0.0.1'
     port = input('Enter port or <CR>: ') or 22222
     ssh_connect(ip, port, user, password)
