@@ -1,0 +1,5 @@
+2023-06-28 09:43:26,391: DEBUG: Este es un mensaje de depuración
+2023-06-28 09:43:26,392: INFO: Esta es una información
+2023-06-28 09:43:26,392: WARNING: ¡Cuidado! Esto es una advertencia
+2023-06-28 09:43:26,392: ERROR: Ocurrió un error
+2023-06-28 09:43:26,392: CRITICAL: Esto es un error crítico
