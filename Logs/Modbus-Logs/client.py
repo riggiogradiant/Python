@@ -5,7 +5,7 @@ import time
 
 import logging
 
-logging.basicConfig(filename='logs.log', level=logging.INFO, format='%(asctime)s: %(levelname)s: %(message)s')
+# logging.basicConfig(filename='logs.log', level=logging.INFO, format='%(asctime)s: %(levelname)s: %(message)s')
 
 print('Starting Modbus Client')
 client = ModbusTcpClient('127.0.0.1', port=5020)
